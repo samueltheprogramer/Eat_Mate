@@ -11,33 +11,32 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.89960&lng=80.22090&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    jsonData = await data.json();
+    try {
+      const data = await fetch(
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.89960&lng=80.22090&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      );
+      const jsonData = await data.json();
 
-    setRestorenList(
-      jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants
-    );
-    setFilterdList(
-      jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants
-    );
+      const restaurants =
+        jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants || [];
+
+      setRestorenList(restaurants);
+      setFilterdList(restaurants);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
+
   return (
     <div className="body">
-      <div className="flex gap-10 justify-center p-5  ">
+      <div className="flex flex-col md:flex-row w-full gap-10 justify-center p-5">
         <div>
           <input
             className="ring-1 ring-slate-600"
             type="text"
-            name=""
-            id=""
             value={serachText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <button
             className="bg-green-300 rounded-md px-5 mx-2"
@@ -60,10 +59,10 @@ const Body = () => {
             setFilterdList(topRestorentList);
           }}
         >
-          TopRatedRestorents
+          Top Rated Restaurants
         </button>
       </div>
-      <div>
+      <div className="p-5">
         <ResCard filterdList={filterdList} />
       </div>
     </div>
