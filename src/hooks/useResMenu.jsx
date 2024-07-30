@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { RESMENU_API } from "../utils/constant";
+import { dummyResCardData,  } from "../utils/constant";
 
-const useResMenu = (resId) => {
+const useResMenu = () => {
   const [resInfoData, setResInfoData] = useState([]);
 
   useEffect(() => {
     fetchMenu();
   }, []);
-  const fetchMenu = async () => {
+  const fetchMenu = () => {
     try {
-      const data = await fetch(RESMENU_API + resId);
-      const jsonData = await data.json();
+      const jsonData = dummyResCardData;
       setResInfoData(jsonData);
     } catch (error) {
       console.error(error);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ResCard from "./ResCard";
+import { dummyData } from "../utils/constant";
 
 const Body = () => {
   const [restorenList, setRestorenList] = useState([]);
@@ -10,15 +11,10 @@ const Body = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = () => {
     try {
-      const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.89960&lng=80.22090&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-      );
-      const jsonData = await data.json();
-
       const restaurants =
-        jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        dummyData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants || [];
 
       setRestorenList(restaurants);
